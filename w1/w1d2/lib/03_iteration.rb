@@ -4,6 +4,13 @@
 # factors of a given number.
 
 def factors(num)
+  factors_list = []
+  potentional_factor = num
+  until potentional_factor == 0
+    factors_list << potentional_factor if num % potentional_factor == 0
+    potentional_factor -= 1
+  end
+  factors_list.sort
 end
 
 # ### Bubble Sort
@@ -46,10 +53,26 @@ end
 # http://stackoverflow.com/questions/827649/what-is-the-ruby-spaceship-operator
 
 class Array
-  def bubble_sort!
+  def bubble_sort!(&proc)
+    proc ||= Proc.new {|a, b| a <=> b}
+    swaps_need = true
+    until swaps_need == false
+      swaps_need = false
+      current_num = 0
+      while current_num < self.count - 1
+        if proc.call(self[current_num], self[current_num + 1]) == 1
+          self[current_num], self[current_num + 1] = self[current_num + 1], self[current_num]
+          swaps_need = true
+        end
+        current_num += 1
+      end
+    end
+    self
   end
 
-  def bubble_sort(&prc)
+  def bubble_sort
+    numbers_dub = self.dup
+    numbers_dub.bubble_sort!
   end
 end
 
@@ -67,9 +90,22 @@ end
 # words).
 
 def substrings(string)
+  all_substrings = []
+  i = 0
+  while i < string.length - 1
+    j = i
+    while j < string.length - 1
+      all_substrings << string[i..j]
+      j += 1
+    end
+    i += 1
+  end
+  all_substrings.uniq
 end
 
 def subwords(word, dictionary)
+  uniq_substrings = substrings(word)
+  uniq_substrings.select {|string| dictionary.include?(string)}
 end
 
 # ### Doubler
@@ -77,6 +113,7 @@ end
 # array with the original elements multiplied by two.
 
 def doubler(array)
+  array.map {|num| num * 2 }
 end
 
 # ### My Each
@@ -104,6 +141,12 @@ end
 
 class Array
   def my_each(&prc)
+    i = 0
+    while i < self.count
+      proc.call(self[i])
+      i += 1
+    end
+    self
   end
 end
 
@@ -122,12 +165,21 @@ end
 
 class Array
   def my_map(&prc)
+    modified_array = []
+    my_each {|element| modified_array << proc.call(element) }
+    modified_array
   end
 
-  def my_select(&prc)
+  def my_select(&proc)
+    modified_array = []
+    my_each {|element| modified_array << element if proc.call(element) }
+    modified_array
   end
 
   def my_inject(&blk)
+    accumulator = self[0]
+    self[1..-1].my_each() {|element| accumulator = blk.call(accumulator, element)}
+    accumulator
   end
 end
 
@@ -141,4 +193,5 @@ end
 # ```
 
 def concatenate(strings)
+  strings.inject("") {|accumulator, string| accumulator << string}
 end

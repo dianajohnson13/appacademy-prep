@@ -1,3 +1,13 @@
+def eval_block(*arguments, &proc)
+	if block_given?
+		proc.call(*arguments)
+	else
+		raise "NO BLOCK GIVEN!" 
+	end
+end
+
+
+
 # ### `eval_block`
 #
 # Write an `eval_block` method that takes some arguments and a block. It should
