@@ -5,13 +5,12 @@
 
 def factors(num)
   factors_list = []
-  potentional_factor = num
-  until potentional_factor == 0
-    factors_list << potentional_factor if num % potentional_factor == 0
-    potentional_factor -= 1
+  (1..num).each do |possible_factor|
+    factors_list << possible_factor if num % possible_factor == 0
   end
   factors_list.sort
 end
+
 
 # ### Bubble Sort
 #
@@ -56,23 +55,23 @@ class Array
   def bubble_sort!(&proc)
     proc ||= Proc.new {|a, b| a <=> b}
     swaps_need = true
-    until swaps_need == false
+    
+    while swaps_need 
       swaps_need = false
-      current_num = 0
-      while current_num < self.count - 1
-        if proc.call(self[current_num], self[current_num + 1]) == 1
-          self[current_num], self[current_num + 1] = self[current_num + 1], self[current_num]
+      (0...(self.count - 1)).each do |i|
+        j = i + 1
+        if proc.call(self[i], self[j]) == 1
+          self[i], self[j] = self[j], self[i]
           swaps_need = true
         end
-        current_num += 1
       end
     end
+
     self
   end
 
   def bubble_sort
-    numbers_dub = self.dup
-    numbers_dub.bubble_sort!
+    self.dup.bubble_sort!
   end
 end
 
@@ -90,17 +89,20 @@ end
 # words).
 
 def substrings(string)
-  all_substrings = []
+  substrings = []
   i = 0
+
   while i < string.length - 1
     j = i
     while j < string.length - 1
-      all_substrings << string[i..j]
+      sub_str = string[i..j]
+      substrings << sub_str unless substrings.include?(sub_str)
       j += 1
     end
     i += 1
   end
-  all_substrings.uniq
+
+  substrings
 end
 
 def subwords(word, dictionary)
@@ -113,7 +115,7 @@ end
 # array with the original elements multiplied by two.
 
 def doubler(array)
-  array.map {|num| num * 2 }
+  array.map { |num| num * 2 }
 end
 
 # ### My Each
@@ -142,10 +144,12 @@ end
 class Array
   def my_each(&prc)
     i = 0
+
     while i < self.count
       proc.call(self[i])
       i += 1
     end
+
     self
   end
 end
@@ -178,7 +182,7 @@ class Array
 
   def my_inject(&blk)
     accumulator = self[0]
-    self[1..-1].my_each() {|element| accumulator = blk.call(accumulator, element)}
+    self[1..-1].my_each { |element| accumulator = blk.call(accumulator, element) }
     accumulator
   end
 end

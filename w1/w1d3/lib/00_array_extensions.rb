@@ -5,7 +5,7 @@
 
 class Array
   def sum 
-    self.inject(0) {|result, num| result + num}
+    inject(0) {|result, num| result + num}
   end
 end
 
@@ -17,12 +17,11 @@ end
 
 class Array
   def square!
-    self.map! {|num| num * num}
+    map! {|num| num * num}
   end
 
   def square
-    modified_array = self.dup
-    modified_array.square!
+    dup.square!
   end
 end
 
@@ -41,9 +40,11 @@ end
 class Array
   def my_uniq
     uniq_elements = []
+
     self.each do |element| 
-      uniq_elements << element if uniq_elements.include?(element) == false
+      uniq_elements << element unless uniq_elements.include?(element)
     end
+
     uniq_elements
   end
 end
@@ -64,20 +65,26 @@ end
 # * `[0, 2]` before `[1, 2]` (smaller first elements come first)
 # * `[0, 1]` before `[0, 2]` (then smaller second elements come first)
 
+
 class Array
+
   def two_sum
     zero_sum_pairs = []
-    self.each_with_index do |element_1, idx_1|
-      self.each_with_index do |element_2, idx_2|
-        break if idx_1 == idx_2
-        if (element_1 + element_2 == 0) && (zero_sum_pairs.include?([idx_2, idx_1]) == false)
-          zero_sum_pairs << [idx_1, idx_2].sort
-        end
+    num_count = self.count
+    
+    num_count.times do |i|
+      j = i + 1
+      while j < num_count
+        zero_sum_pairs << [i, j] if self[i] + self[j] == 0
+        j += 1
       end
     end
-    zero_sum_pairs.sort
+
+    zero_sum_pairs
   end
+
 end
+
 
 # Median
 #
@@ -87,14 +94,20 @@ end
 # average of the middle two items from the sorted array.
 
 class Array
+  
   def median
     return nil if self == []
+
     sorted_array = self.sort
-    element_count = sorted_array.count
-    return sorted_array[0] if element_count == 1
-    element_count.odd? ? sorted_array[(element_count / 2)] :
-     ((sorted_array[(element_count / 2) -1]) + (sorted_array[element_count / 2])) / 2.0
+
+    if count.odd?
+      sorted_array[(count / 2)]
+    else
+     ((sorted_array[(count / 2) -1]) + (sorted_array[count / 2])) / 2.0
+    end
+    
   end
+
 end
 
 # My Transpose

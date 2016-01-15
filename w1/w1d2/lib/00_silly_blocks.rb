@@ -1,6 +1,7 @@
 def reverser(&proc)
-	words = proc.call
-	words.split.map { |word| word.reverse }.join " "
+	string = proc.call
+	words = string.split
+	words.map { |word| word.reverse }.join " "
 end
 
 def adder(additional = 1)
@@ -8,5 +9,5 @@ def adder(additional = 1)
 end
 
 def repeater(times = 1, &proc)
-	times.times {proc.call}
+	times.times { proc.call }
 end

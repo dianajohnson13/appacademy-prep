@@ -1,5 +1,5 @@
-def measure(n = 1, &proc)
+def measure(times = 1, &proc)
 	start_time = Time.now
-	n.times {proc.call}
-	(Time.now - start_time) / n
+	times.times {proc.call}
+	(Time.now - start_time) / times
 end

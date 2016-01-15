@@ -19,14 +19,17 @@
 class String
   def caesar(shift)
   	shifted_characters = self.chars.map do |character|
-  		if (character.ord >= 97) && (character.ord <= 122)
+  		
+      if (character.ord >= 97) && (character.ord <= 122)
   			((((character.ord - 97) + shift) % 26) + 97).chr
   		elsif (character.ord >= 65) && (character.ord <= 90)
   			((((character.ord - 65) + shift) % 26) + 65).chr
   		elsif character == " "
   			" "
-  		end
+      end
+
   	end
+
   	shifted_characters.join
   end
 end
@@ -58,13 +61,16 @@ end
 class Hash
   def difference(other_hash)
   	diff_hash = {}
-  	self.each do |key, value| 
+  	
+    self.each do |key, value| 
   		diff_hash[key] = value unless other_hash.has_key?(key)
   	end
-  	other_hash.each do |key, value| 
+  	
+    other_hash.each do |key, value| 
   		diff_hash[key] = value unless self.has_key?(key)
   	end
-  	diff_hash
+  	
+    diff_hash
   end
 end
 
@@ -129,14 +135,17 @@ class Fixnum
   def stringify(base)
   	digits = %w(0 1 2 3 4 5 6 7 8 9 a b c d e f)
   	return "0" if self == 0
-  	stringed_num = ""
+  	
+    stringed_num = ""
   	current_num = self
-  	while current_num > 0
+  	
+    while current_num > 0
   		remainder = current_num % base
   		stringed_num = digits[remainder] + stringed_num
   		current_num = (current_num - remainder) / base
   	end
-  	stringed_num
+  	
+    stringed_num
   end
 end
 
