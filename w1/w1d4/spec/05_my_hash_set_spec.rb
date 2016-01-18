@@ -100,5 +100,67 @@ describe MyHashSet do
         )
       end
     end
+
+     describe "#symmetric_difference" do
+      it "returns a new set" do
+        expect(set1.symmetric_difference(set2)).to be_a(MyHashSet)
+      end
+
+      it "returns a set containing elements in EITHER set, but not both" do
+        els = set1.symmetric_difference(set2).to_a
+
+        expect(els).to contain_exactly(
+          "Mark Hamill",
+          "Harrison Ford",
+          "Ewan McGregor",
+          "Natalie Portman"
+        )
+      end
+    end
+
+  end
+
+  describe "External comparisons" do
+    before(:each) do
+      set1.insert("Yogi Bear")
+      set2.insert("Yogi Bear")
+    end
+
+    describe "#==(object)" do
+      
+      it "return false if compared to a non-MyHashSet object" do
+        expect(set1 == 5).to be false
+      end
+
+      it "returns false if the MyHashSets are not equal sizes" do 
+        set1.insert("Jelly")
+
+        expect(set1 == set2).to be false
+        expect(set2 == set1).to be false
+      end
+
+      it "returns false if the MyHashSets are the same size but do not contain the same keys" do
+        set1.insert("Jelly")
+        set2.insert("Peanut Butter")
+
+        expect(set1 == set2).to be false
+        expect(set2 == set1).to be false
+      end
+
+      it "returns true if the MyHashSets are the same size and contain the same keys" do 
+         # Try for size of one each
+         expect(set1 == set2).to be true
+         expect(set2 == set1).to be true
+
+         # Try for size greater than one each
+         set1.insert("Jelly")
+         set2.insert("Jelly")
+
+         expect(set1 == set2).to be true
+         expect(set2 == set1).to be true
+      end
+    end
+
+
   end
 end

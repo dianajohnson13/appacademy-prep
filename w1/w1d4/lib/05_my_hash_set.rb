@@ -82,10 +82,21 @@
 			new_hash_set = MyHashSet.new
 
 			uniq_els = self.to_a.select { |el| el unless set2.to_a.include?(el) }
-			set2.to_a.each { |el| uniq_els << el unless uniq_els.include?(el) }
+			set2.to_a.each { |el| uniq_els << el unless self.include?(el) }
 
 			uniq_els.each { |el| new_hash_set.insert(el) }
 			new_hash_set
+		end
+
+		def ==(object)
+			if object.is_a?(MyHashSet) && self.symmetric_difference(object).size == 0
+				return true
+			end
+			false
+		end
+
+		def size
+			@store.keys.size
 		end
 
 	end
