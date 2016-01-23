@@ -1,5 +1,3 @@
-require 'pry'
-
 class RPNCalculator
   attr_reader :stack
 

@@ -20,7 +20,6 @@ class Board
 	end
 
 	def place_mark(pos, mark)
-		grid.each {|row| p row}
 		if self.empty?(pos)
 			self[*pos] = mark
 		else
