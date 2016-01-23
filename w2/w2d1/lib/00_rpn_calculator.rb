@@ -1,3 +1,5 @@
+require 'pry'
+
 class RPNCalculator
   attr_reader :stack
 
@@ -77,5 +79,33 @@ class RPNCalculator
   	end
   	value
   end
+
+
+end
+
+if __FILE__ == $PROGRAM_NAME
+
+  def run_test
+    calc = RPNCalculator.new
+    if ARGV.empty?
+      test_manually(calc)
+    else
+      lines = File.readlines(ARGV[0])
+      lines.each {|line| p calc.evaluate(line)}
+    end
+  end
+
+  def test_manually(calc)
+    puts "Please type each character of your expression on a new line and hit enter again when you are done."
+    expression = ""
+    input = " "
+    until input == ""
+      input = gets.chomp
+      expression << input << " "
+    end
+    p calc.evaluate(expression)
+  end
+
+  run_test
 
 end
