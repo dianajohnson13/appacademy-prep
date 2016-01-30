@@ -1,9 +1,8 @@
 class Board
-	attr_accessor :grid, :number_ships
+	attr_accessor :grid
 
 	def initialize(grid = Board.default_grid)
 		@grid = grid
-		@number_ships = 20
 	end
 
 	def self.default_grid
@@ -32,6 +31,26 @@ class Board
 		display_board.each { |row| p row }
 	end
 
+	def display_for_player
+		display_board = []
+
+		grid.each do |row|
+			display_row = []
+
+			row.each do |spot|
+				if spot == :s
+					display_row << :s
+				else
+					display_row << :_
+				end
+			end
+
+			display_board << display_row
+		end
+
+		display_board.each { |row| p row }
+	end
+
 	def count
 		remaining_ships = 0
 		grid.each do |row|
@@ -48,10 +67,6 @@ class Board
 			return true
 		end
 		self[pos].nil?
-	end
-
-	def populate_grid
-		number_ships.times {place_random_ship}
 	end
 
 	def full?
@@ -102,4 +117,10 @@ class Board
 		false
 	end
 
+end
+
+if __FILE__ == $PROGRAM_NAME
+	test_board = Board.new
+
+	test_board.display
 end

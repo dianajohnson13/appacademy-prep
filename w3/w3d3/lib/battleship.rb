@@ -1,60 +1,39 @@
 require_relative 'board'
 require_relative 'player'
-require_relative 'ship'
 
 class BattleshipGame
-  attr_reader :player1, :player2, :curr_player, :opponent, :ship_quantity
+  attr_reader :player, :board
 
-  def initialize(player1, player2 = nil)
-  	@player1 = player1
-    @player2 = player2
-    @curr_player = player1
-    @opponent = player2
-    @ship_quantity = 2
-  end
-
-  def curr_player
-    @curr_player
-  end
-
-  def opponent
-    @opponent
-  end
-
-  def switch_players!
-    if curr_player == player1
-      @curr_player = player2
-      @opponent = player1
-    else
-      @curr_player = player1
-      @opponent = player2
-    end
+  def initialize(player, board = Board.new)
+  	@player = player
+    @board = board
   end
 
   def play
-    player1.setup_board(ship_quantity)
-    player2.setup_board(ship_quantity)
-
+    board.populate_grid
     until game_over?
       play_turn
-      opponent.board.display
-      switch_players!
+      board.display
     end
+    puts "You win!"
   end
 
   def play_turn
-    players_move = curr_player.get_play
-    attack(players_move)
+    move = player.get_play
+    if board.in_range?(move)
+      attack(move)
+    else
+      puts "That's not a valid move!"
+    end
   end
 
   def attack(pos)
-    if opponent.board[pos] == :s
-      puts "#{curr_player.name} Hits!"
-      opponent.board[*pos] = :x
+    if board[pos] == :s
+      puts "Hit!"
     else 
-      puts "#{curr_player.name} Misses!"
-      opponent.board[*pos] = :m
+      puts "Miss!"
     end
+    board[*pos] = :x
   end
 
   def count
@@ -62,7 +41,7 @@ class BattleshipGame
   end
 
   def game_over?
-    return true if curr_player.board.won?
+    return true if board.won?
     false
   end
 
@@ -71,9 +50,8 @@ end
 
 if __FILE__ == $PROGRAM_NAME
 
-  player1 = HumanPlayer.new("Chris")
-  player2 = ComputerPlayer.new("Bob")
-  game = BattleshipGame.new(player1, player2)
+  player = HumanPlayer.new("Chris")
+  game = BattleshipGame.new(player)
 
   game.play
 
