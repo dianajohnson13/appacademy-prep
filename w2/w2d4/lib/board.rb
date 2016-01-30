@@ -3,7 +3,7 @@ class Board
 
 	@@spots_taken = 0
 
-	def initialize(grid = [[nil, nil, nil], [nil, nil, nil], [nil, nil, nil]])
+	def initialize(grid = Array.new(3) {Array.new(3, nil)})
 		@grid = grid
 	end
 
