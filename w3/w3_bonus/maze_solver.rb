@@ -3,7 +3,6 @@ class Maze
 
 	def initialize(board)
 		@board = board
-		@count = 0
 	end
 
 	def self.maze_from_file(file_name)
@@ -19,23 +18,48 @@ class Maze
 	end
 
 	def move(pos, prev_pos)
-		puts "skafjlksj" if self[*pos] == "E"
-		if self[*pos] == " "
-			self[*pos] = "#{@count}"
-			@count += 1
+
+		if self[*pos] == "E"
+			puts "FOUND THE END!!!!!!!!!!!"
+			return true
 		end
-		display_board
-		p " "
+
+		self[*pos] = "M"  #previous pos array?
 
 		left = [pos[0], pos[1] - 1]
 		right = [pos[0], pos[1] + 1]
 		up = [pos[0] - 1, pos[1]]
 		down = [pos[0] + 1, pos[1]]
 
-		move(left, pos) if self[*left] == " " && left != prev_pos
-		move(up, pos) if self[*up] == " " && up != prev_pos
-		move(right, pos) if self[*right] == " " && right != prev_pos
-		move(down, pos) if self[*down] == " " && down != prev_pos
+		# move(left, pos) if (self[*left] == " " || self[*left] == "E") && left != prev_pos
+		# move(up, pos) if (self[*up] == " " || self[*up] == "E") && up != prev_pos
+		# move(right, pos) if (self[*right] == " " || self[*right] == "E") && right != prev_pos
+		# move(down, pos) if (self[*down] == " " || self[*down] == "E") && down != prev_pos
+
+		if (self[*left] == " " || self[*left] == "E") && left != prev_pos
+			if move(left, pos) == true
+				self[*pos] = "X" 
+				return true
+			end
+		end
+		if (self[*up] == " " || self[*up] == "E") && up != prev_pos
+			if move(up, pos) == true
+				self[*pos] = "X" 
+				return true
+			end 
+		end
+		if (self[*right] == " " || self[*right] == "E") && right != prev_pos
+			if move(right, pos) == true
+				self[*pos] = "X" 
+				return true
+			end 
+		end
+		if (self[*down] == " " || self[*down] == "E") && down != prev_pos
+			if move(down, pos) == true
+				self[*pos] = "X" 
+				return true
+			end 
+		end
 
 	end
 
@@ -50,13 +74,13 @@ class Maze
 	def run_maze
 		start_pos = find_start
 		move(start_pos, start_pos)
+		display_board
 		return board
 	end
 
 	def display_board
 		board.each do |row|
-			#puts row.join
-			p row
+			puts row.join
 		end
 	end
 
