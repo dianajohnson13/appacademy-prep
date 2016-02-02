@@ -1,8 +1,9 @@
 class Maze
-	attr_accessor :board
+	attr_accessor :board, :prev_pos
 
 	def initialize(board)
 		@board = board
+		@prev_pos = []
 	end
 
 	def self.maze_from_file(file_name)
@@ -17,12 +18,14 @@ class Maze
 		end
 	end
 
-	def move(pos, prev_pos)
+	def move(pos)
 
 		if self[*pos] == "E"
 			puts "FOUND THE END!!!!!!!!!!!"
 			return true
 		end
+
+		@prev_pos << pos
 
 		self[*pos] = "M"  #previous pos array?
 
@@ -36,27 +39,31 @@ class Maze
 		# move(right, pos) if (self[*right] == " " || self[*right] == "E") && right != prev_pos
 		# move(down, pos) if (self[*down] == " " || self[*down] == "E") && down != prev_pos
 
-		if (self[*left] == " " || self[*left] == "E") && left != prev_pos
-			if move(left, pos) == true
-				self[*pos] = "X" 
+		unless self[*left] == "*" || prev_pos.include?(left)
+			if move(left) == true
+				self[*pos] = "X"
+				p pos 
 				return true
 			end
 		end
-		if (self[*up] == " " || self[*up] == "E") && up != prev_pos
-			if move(up, pos) == true
+		unless self[*up] == "*" || prev_pos.include?(up)
+			if move(up) == true
 				self[*pos] = "X" 
+				p pos
 				return true
 			end 
 		end
-		if (self[*right] == " " || self[*right] == "E") && right != prev_pos
-			if move(right, pos) == true
-				self[*pos] = "X" 
+		unless self[*right] == "*" || prev_pos.include?(right)
+			if move(right) == true
+				self[*pos] = "X"
+				p pos 
 				return true
 			end 
 		end
-		if (self[*down] == " " || self[*down] == "E") && down != prev_pos
-			if move(down, pos) == true
-				self[*pos] = "X" 
+		unless self[*down] == "*" || prev_pos.include?(down)
+			if move(down) == true
+				self[*pos] = "X"
+				p pos
 				return true
 			end 
 		end
@@ -73,7 +80,7 @@ class Maze
 
 	def run_maze
 		start_pos = find_start
-		move(start_pos, start_pos)
+		move(start_pos)
 		display_board
 		return board
 	end
@@ -91,11 +98,12 @@ if __FILE__ == $PROGRAM_NAME
 
 maze_solver = Maze.maze_from_file(ARGV[0])
 
-# solved_maze = File.open("solution.txt", "w")
-# solved_maze.puts 
+solved_maze = File.open("solution.txt", "w")
 
-maze_solver.run_maze
+solution = maze_solver.run_maze
 
-# solved_maze.close()
+solution.each {|line| solved_maze.puts line.join}
+
+solved_maze.close()
 
 end
