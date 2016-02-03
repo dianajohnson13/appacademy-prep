@@ -1,9 +1,11 @@
 class Maze
-	attr_accessor :board, :prev_pos
+	attr_accessor :board, :prev_pos, :count, :queue
 
 	def initialize(board)
 		@board = board
 		@prev_pos = []
+		@count = 0
+		@queue = []
 	end
 
 	def self.maze_from_file(file_name)
@@ -19,56 +21,39 @@ class Maze
 	end
 
 	def move(pos)
-
-		if self[*pos] == "E"
-			puts "FOUND THE END!!!!!!!!!!!"
-			return true
-		end
-
+		
+		@queue << pos
 		@prev_pos << pos
 
-		self[*pos] = "M"  #previous pos array?
+			p queue
+			until queue.empty?
+				# sleep(1)
+				top = @queue.shift
+				return true if self[*top] == "E"
+				self[*top] = count
+				find_row(top)
+			end
+	end
 
+
+	def find_row(pos)
+		@count += 1
+		
 		left = [pos[0], pos[1] - 1]
 		right = [pos[0], pos[1] + 1]
 		up = [pos[0] - 1, pos[1]]
 		down = [pos[0] + 1, pos[1]]
 
-		# move(left, pos) if (self[*left] == " " || self[*left] == "E") && left != prev_pos
-		# move(up, pos) if (self[*up] == " " || self[*up] == "E") && up != prev_pos
-		# move(right, pos) if (self[*right] == " " || self[*right] == "E") && right != prev_pos
-		# move(down, pos) if (self[*down] == " " || self[*down] == "E") && down != prev_pos
+		potential_pos = [left, right, up, down]
 
-		unless self[*left] == "*" || prev_pos.include?(left)
-			if move(left) == true
-				self[*pos] = "X"
-				p pos 
-				return true
+		potential_pos.each do |pot_pos|
+			unless self[*pot_pos] == "*" || @prev_pos.include?(pot_pos)
+				@prev_pos << pot_pos
+				@queue << pot_pos
 			end
 		end
-		unless self[*up] == "*" || prev_pos.include?(up)
-			if move(up) == true
-				self[*pos] = "X" 
-				p pos
-				return true
-			end 
-		end
-		unless self[*right] == "*" || prev_pos.include?(right)
-			if move(right) == true
-				self[*pos] = "X"
-				p pos 
-				return true
-			end 
-		end
-		unless self[*down] == "*" || prev_pos.include?(down)
-			if move(down) == true
-				self[*pos] = "X"
-				p pos
-				return true
-			end 
-		end
-
 	end
+
 
 	def [](row, col)
 		@board[row][col]
@@ -87,7 +72,7 @@ class Maze
 
 	def display_board
 		board.each do |row|
-			puts row.join
+			p row
 		end
 	end
 
