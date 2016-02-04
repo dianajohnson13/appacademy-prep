@@ -66,7 +66,6 @@ class Board
 			raise "Board is full"
 		else
 			rand_pos = self.available_spots.sample
-			p rand_pos
 			self[*rand_pos] = :s
 		end
 	end
@@ -96,9 +95,7 @@ class Board
 	end
 
 	def in_range?(pos)
-		if (pos[0] < 10) && (pos[1] < 10)
-			return true
-		end
+		return true if (pos[0] < 10) && (pos[1] < 10)
 		false
 	end
 
