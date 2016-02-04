@@ -40,9 +40,7 @@ class Ship
 	end
 
 	def place_ship(required_spots)
-		required_spots.each do |spot|
-			board[*spot] = :s
-		end
+		required_spots.each { |spot| board[*spot] = :s }
 	end
 
 end

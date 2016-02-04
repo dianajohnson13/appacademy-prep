@@ -38,11 +38,7 @@ class Board
 			display_row = []
 
 			row.each do |spot|
-				if spot == :s
-					display_row << :s
-				else
-					display_row << :_
-				end
+				spot == :s ? display_row << :s : display_row << :_
 			end
 
 			display_board << display_row
@@ -66,6 +62,7 @@ class Board
 			end
 			return true
 		end
+
 		self[pos].nil?
 	end
 
@@ -111,9 +108,7 @@ class Board
 	end
 
 	def in_range?(pos)
-		if (pos[0] < 10) && (pos[1] < 10)
-			return true
-		end
+		return true if (pos[0] < 10) && (pos[1] < 10)
 		false
 	end
 

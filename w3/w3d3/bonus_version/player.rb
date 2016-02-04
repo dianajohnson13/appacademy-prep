@@ -48,7 +48,7 @@
 
 	class ComputerPlayer
 
-				attr_accessor :name, :board
+		attr_accessor :name, :board
 
 		def initialize(name, board = Board.new)
 			@name = name
