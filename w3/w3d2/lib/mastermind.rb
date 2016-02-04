@@ -23,7 +23,7 @@ class Code
   def self.parse(code)
   	colors = code.downcase.chars
   	colors.each { |color| raise "Error" unless PEGS.keys.include?(color.to_sym) }
-  	self.new(colors)
+  	Code.new(colors)
   end
 
   def [](peg)
@@ -71,9 +71,8 @@ class Game
   end
 
   def get_guess
-    puts "Please make a guess. So far you have made #{count} of 10 guesses."
+    puts "Please make a guess."
   	guess = $stdin.gets.chomp
-  	p guess
   	Code.parse(guess)
   end
 
@@ -85,6 +84,7 @@ class Game
   def play
   	puts "Let's play Mastermind!"
   	10.times do |count|
+      puts "So far you have made #{count} of 10 guesses."
 	  	guess = get_guess
 	  	display_matches(guess)
 	  	return puts "You win!!" if guess.pegs == secret_code.pegs
