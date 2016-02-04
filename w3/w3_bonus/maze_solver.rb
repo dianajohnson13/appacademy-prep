@@ -1,11 +1,11 @@
 class Maze
-	attr_accessor :board, :prev_pos, :count, :queue
+	attr_reader :board, :prev_pos, :queue, :parent
 
 	def initialize(board)
 		@board = board
 		@prev_pos = []
-		@count = 0
 		@queue = []
+		@parent = Hash.new(nil)
 	end
 
 	def self.maze_from_file(file_name)
@@ -14,30 +14,24 @@ class Maze
 
 	def find_start
 		board.each_with_index do |row, i|
-			row.each_index do |j|
-				return [i, j] if self[i, j] == "S"
-			end
+			row.each_index { |j| return [i, j] if self[i, j] == "S" }
 		end
 	end
 
 	def move(pos)
-		
 		@queue << pos
 		@prev_pos << pos
 
-			p queue
-			until queue.empty?
-				# sleep(1)
-				top = @queue.shift
-				return true if self[*top] == "E"
-				self[*top] = count
-				find_row(top)
-			end
+		until @queue.empty?
+			# sleep(1)
+			top = @queue.shift
+			return top if self[*top] == "E" #returns pos of "E"
+			find_row(top)
+		end
 	end
 
 
 	def find_row(pos)
-		@count += 1
 		
 		left = [pos[0], pos[1] - 1]
 		right = [pos[0], pos[1] + 1]
@@ -49,11 +43,19 @@ class Maze
 		potential_pos.each do |pot_pos|
 			unless self[*pot_pos] == "*" || @prev_pos.include?(pot_pos)
 				@prev_pos << pot_pos
+				@parent[pot_pos] = pos
 				@queue << pot_pos
 			end
 		end
 	end
 
+	def backtrack(pos)
+		pos = @parent[pos] # Skip over E so I don't overwrite it.
+		until @parent[pos].nil?
+			self[*pos] = "X"
+			pos = @parent[pos]
+		end
+	end
 
 	def [](row, col)
 		@board[row][col]
@@ -65,15 +67,16 @@ class Maze
 
 	def run_maze
 		start_pos = find_start
-		move(start_pos)
+		@parent[start_pos] = nil
+		end_location = move(start_pos)
+		backtrack(end_location)
+		
 		display_board
 		return board
 	end
 
 	def display_board
-		board.each do |row|
-			p row
-		end
+		board.each { |row| puts row.join }
 	end
 
 end
