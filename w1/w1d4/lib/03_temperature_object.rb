@@ -1,33 +1,3 @@
-# class Temperature
-#   def initialize(temp)
-#   	temp.has_key?(:f) ? @f = temp[:f] : @c = temp[:c]
-#   end
-
-#   def in_celsius
-#   	@f ? self.class.ftoc(@f): @c
-#   end
-
-#   def in_fahrenheit
-#   	@c ? self.class.ctof(@c) : @f
-#   end
-
-#   def self.from_celsius(celsius) 
-#   	self.new(:c => celsius)
-#   end
-
-#   def self.from_fahrenheit(fahrenheit) 
-#   	self.new(:f => fahrenheit)
-#   end
-
-#   def self.ctof(temp)
-#   	 (temp * (9 / 5.0)) + 32
-#   end
-
-#    def self.ftoc(temp)
-#   	 (f - 32) * (5 / 9.0)
-#   end
-# end
-
 class Temperature
 
   def initialize(temp)
@@ -79,13 +49,3 @@ class Fahrenheit < Temperature
 		self.fahrenheit = temp
 	end
 end
-
-# my_temp = Temperature.new(:c => 50)
-# my_temp.celsius = 50
-
-# fahrenheit_temp = 0
-# celsius_temp = Temperature.ftoc(fahrenheit_temp)
-
-# Temperature.from_celsius
-
-# Celsius.new(32)
