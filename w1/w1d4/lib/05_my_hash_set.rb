@@ -29,63 +29,66 @@
 # all the items of `set1` that aren't in `set2`.
 
 	class MyHashSet
-		attr_accessor :store
+		attr_reader :store
 
 		def initialize
 			@store = {}
 		end
 
 		def insert(el)
-			@store[el] = true
+			store[el] = true
 		end
 
 		def include?(el)
-			@store.key?(el)
+			store.key?(el)
 		end
 
 		def delete(el)
-			@store.delete(el)
+			store.delete(el)
 		end
 
 		def to_a
-			@store.keys.map { |el| el }
+			store.keys
 		end
 
 		def union(set2)
-			new_hash_set = MyHashSet.new
-			set_combo_array = (self.to_a + set2.to_a).uniq
-			set_combo_array.each do |el|
-				new_hash_set.insert(el)
-			end
-			new_hash_set
+			new_set = MyHashSet.new
+			set_combo = (self.to_a + set2.to_a).uniq
+			set_combo.each { |el| new_set.insert(el) }
+			new_set
 		end
 
 		def intersect(set2)
-			new_hash_set = MyHashSet.new
-			shared_else = self.to_a.select do |el| 
-				el if set2.to_a.include?(el)
+			new_set = MyHashSet.new
+			
+			shared_els = self.to_a.select do |el| 
+				set2.to_a.include?(el)
 			end
-			shared_else.each { |el| new_hash_set.insert(el) }
-			new_hash_set
+
+			shared_els.each { |el| new_set.insert(el) }
+			
+			new_set
 		end
 
 		def minus(set2)
-			new_hash_set = MyHashSet.new
+			new_set = MyHashSet.new
+			
 			remaining_els = self.to_a.select do |el| 
-				el unless set2.to_a.include?(el)
+				!(set2.to_a.include?(el))
 			end
-			remaining_els.each { |el| new_hash_set.insert(el) }
-			new_hash_set
+
+			remaining_els.each { |el| new_set.insert(el) }
+			new_set
 		end
 
 		def symmetric_difference(set2)
-			new_hash_set = MyHashSet.new
+			new_set = MyHashSet.new
 
-			uniq_els = self.to_a.select { |el| el unless set2.to_a.include?(el) }
+			uniq_els = self.to_a.select { |el| !(set2.to_a.include?(el)) }
 			set2.to_a.each { |el| uniq_els << el unless self.include?(el) }
 
-			uniq_els.each { |el| new_hash_set.insert(el) }
-			new_hash_set
+			uniq_els.each { |el| new_set.insert(el) }
+			new_set
 		end
 
 		def ==(object)
@@ -96,7 +99,7 @@
 		end
 
 		def size
-			@store.keys.size
+			store.keys.size
 		end
 
 	end
