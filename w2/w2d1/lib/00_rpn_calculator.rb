@@ -53,15 +53,18 @@ class RPNCalculator
 
   def tokens(expression)
   	operations = %w(+ - / *)
-  	elements = expression.split
+    elements = expression.split
+
   	elements.map do |element|
   		operations.include?(element) ? element.to_sym : element.to_i
   	end
+
   end
 
   def evaluate(expression)
   	toks = tokens(expression)
-  	toks.each do |token|
+  	
+    toks.each do |token|
   		case
   		when token.is_a?(Integer)
   			stack.push(token)
@@ -75,7 +78,8 @@ class RPNCalculator
   			times
   		end
   	end
-  	value
+  	
+    value
   end
 
 
