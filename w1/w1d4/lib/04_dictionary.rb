@@ -1,5 +1,5 @@
 class Dictionary
-	attr_accessor :entries
+	attr_reader :entries
 
 	def initialize
 		@entries = {}
@@ -26,7 +26,10 @@ class Dictionary
 	end
 
 	def printable
-		sorted_and_printable = self.keywords.map { |key| %Q([#{key}] "#{entries[key]}")}
+		sorted_and_printable = self.keywords.map do |key| 
+			%Q([#{key}] "#{entries[key]}")
+		end
+
 		sorted_and_printable.join ("\n")
 	end
 
