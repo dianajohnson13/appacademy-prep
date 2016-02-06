@@ -1,20 +1,37 @@
+ALPHABET = ("a"..."z")
+VOWELS = %(a e i o u)
+
 def translate(statement)
   words = statement.split
-  piggified_words = words.map {|word| translate_word(word)}
+  piggified_words = words.map { |word| translate_word(word) }
   piggified_words.join " "
 end
 
 def translate_word(word)
-  vowels = %(a e i o u)
-  letters = word.chars
+  letters = word.downcase.chars
 
-  until vowels.include?(letters[0])
+  if ALPHABET.include?(letters.last)
+    new_word = swap_letters(letters).join
+  else
+    punctuation = letters.pop
+    new_word = (swap_letters(letters) << punctuation).join
+  end
+
+  is_capped?(word) ? new_word.capitalize : new_word
+end
+
+def swap_letters(letters)
+  until VOWELS.include?(letters[0])
     if letters[0..1] == ["q", "u"]
-      letters.push(letters[0..1]).shift(2) 
+      letters.push(letters[0..1]).shift(2)
     else 
      letters.push(letters[0]).shift
     end
   end
-  
-  (letters << "ay").join
+  letters << "ay"
+end
+
+def is_capped?(word)
+  return true if word.capitalize == word
+  false
 end
