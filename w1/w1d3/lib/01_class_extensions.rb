@@ -22,8 +22,10 @@ class String
   		
       if (character.ord >= 97) && (character.ord <= 122)
   			((((character.ord - 97) + shift) % 26) + 97).chr
+
   		elsif (character.ord >= 65) && (character.ord <= 90)
   			((((character.ord - 65) + shift) % 26) + 65).chr
+
   		elsif character == " "
   			" "
       end
@@ -34,16 +36,16 @@ class String
   end
 end
 
-=begin #For lower-case only
-class String
-  def caesar(shift)
-  	shifted_characters = self.chars.map do |character|
-  		character == " " ?  " " : ((((character.ord - 97) + shift) % 26) + 97).chr
-  	end
-  	shifted_characters.join
-  end
-end
-=end
+#  #For lower-case only
+# class String
+#   def caesar(shift)
+#   	shifted_characters = self.chars.map do |character|
+#   		character == " " ?  " " : ((((character.ord - 97) + shift) % 26) + 97).chr
+#   	end
+#   	shifted_characters.join
+#   end
+# end
+
 
 # Hash: Difference
 #
@@ -60,17 +62,17 @@ end
 
 class Hash
   def difference(other_hash)
-  	diff_hash = {}
+  	difference_hash = {}
   	
     self.each do |key, value| 
-  		diff_hash[key] = value unless other_hash.has_key?(key)
+  		difference_hash[key] = value unless other_hash.key?(key)
   	end
   	
     other_hash.each do |key, value| 
-  		diff_hash[key] = value unless self.has_key?(key)
+  		difference_hash[key] = value unless self.key?(key)
   	end
   	
-    diff_hash
+    difference_hash
   end
 end
 

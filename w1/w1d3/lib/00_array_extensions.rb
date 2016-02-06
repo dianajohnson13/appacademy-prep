@@ -5,7 +5,7 @@
 
 class Array
   def sum 
-    inject(0) {|result, num| result + num}
+    inject(0) {|sum, num| sum + num}
   end
 end
 
@@ -41,8 +41,8 @@ class Array
   def my_uniq
     uniq_elements = []
 
-    self.each do |element| 
-      uniq_elements << element unless uniq_elements.include?(element)
+    self.each do |el| 
+      uniq_elements << el unless uniq_elements.include?(el)
     end
 
     uniq_elements
