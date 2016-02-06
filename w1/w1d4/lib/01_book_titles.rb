@@ -5,16 +5,16 @@ class Book
 
 	def title=(title)
 		words = title.split
-		cap_words = [words.first.capitalize]
+		titlized_words = [words.first.capitalize]
 
 		words[1..-1].each do |word|
 			 if LITTLE_WORDS.include?(word)
-			 	cap_words << word
+			 	titlized_words << word
 			 else
-				cap_words << word.capitalize 
+				titlized_words << word.capitalize 
 			end
 		end
 
-		@title = cap_words.join " "
+		@title = titlized_words.join " "
 	end
 end
