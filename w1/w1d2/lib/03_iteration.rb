@@ -5,10 +5,12 @@
 
 def factors(num)
   factors_list = []
+
   (1..num).each do |possible_factor|
     factors_list << possible_factor if num % possible_factor == 0
   end
-  factors_list.sort
+
+  factors_list
 end
 
 
@@ -58,6 +60,7 @@ class Array
     
     while swaps_need 
       swaps_need = false
+      
       (0...(self.count - 1)).each do |i|
         j = i + 1
         if proc.call(self[i], self[j]) == 1
@@ -65,13 +68,14 @@ class Array
           swaps_need = true
         end
       end
+    
     end
-
     self
+
   end
 
-  def bubble_sort
-    self.dup.bubble_sort!
+  def bubble_sort(&proc)
+    self.dup.bubble_sort!(&proc)
   end
 end
 
@@ -170,19 +174,19 @@ end
 class Array
   def my_map(&prc)
     modified_array = []
-    my_each {|element| modified_array << proc.call(element) }
+    my_each {|el| modified_array << proc.call(el) }
     modified_array
   end
 
   def my_select(&proc)
     modified_array = []
-    my_each {|element| modified_array << element if proc.call(element) }
+    my_each {|el| modified_array << el if proc.call(el) }
     modified_array
   end
 
-  def my_inject(&blk)
+  def my_inject(&proc)
     accumulator = self[0]
-    self[1..-1].my_each { |element| accumulator = blk.call(accumulator, element) }
+    self[1..-1].my_each { |el| accumulator = proc.call(accumulator, el) }
     accumulator
   end
 end
