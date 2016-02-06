@@ -23,8 +23,10 @@ end
 def titleize(title)
     small_words = ["the", "over", "and"]
     words = title.split
+
     words.each_with_index do |word, index| 
        word.capitalize! unless (index > 0) && (small_words.include?(word))
     end
+    
     words.join " "
 end
