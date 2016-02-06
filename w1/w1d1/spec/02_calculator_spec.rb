@@ -85,7 +85,7 @@ describe "#multiply" do
   end
   
   it "multiplies several numbers" do
-    expect(multiply(7, 11)).to eq(77)
+    expect(multiply(7, 11, 2)).to eq(154)
   end
 end
 

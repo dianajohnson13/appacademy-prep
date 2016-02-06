@@ -12,8 +12,10 @@ def sum(numbers)
     sum
 end
 
-def multiply(num1, num2)
-   num1 * num2 
+def multiply(*nums)
+   product = 1
+   nums.each { |num| product *= num }
+   product
 end
 
 def power(number, exponent)
@@ -22,10 +24,10 @@ end
 
 def factorial(number)
     return 1 if number == 0
-    fact = 1
+    product = 1
     while number > 0
-        fact *= number
+        product *= number
         number -= 1
     end
-    fact
+    product
 end
