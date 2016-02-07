@@ -6,23 +6,23 @@ class Code
   end
 
   PEGS = {
-  	r: "red",
-  	b: "blue",
-  	g: "green",
-  	y: "yellow",
-  	o: "orange",
-  	p: "purple"
+  	"r" => :red,
+  	"b" => :blue,
+  	"g" => :green,
+  	"y" => :yellow,
+  	"o" => :orange,
+  	"p" => :purple
   }
 
   def self.random
   	selection = []
-  	4.times {selection << PEGS.keys.sample.to_s}
+  	4.times {selection << PEGS.keys.sample}
   	self.new(selection)
   end
 
   def self.parse(code)
   	colors = code.downcase.chars
-  	colors.each { |color| raise "Error" unless PEGS.keys.include?(color.to_sym) }
+  	colors.each { |color| raise "Error" unless PEGS.keys.include?(color) }
   	Code.new(colors)
   end
 
@@ -57,8 +57,7 @@ class Code
   end
 
   def ==(code)
-  	return true if code.is_a?(Code) && pegs.join == code.pegs.join
-  	false
+  	code.is_a?(Code) && pegs == code.pegs
   end
 
 end
