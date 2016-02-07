@@ -10,10 +10,9 @@ class HumanPlayer
 	end
 
 	def get_move
-		puts "where would you like to play your turn?"
-		response = gets.chomp
-		p response
-		move = response.split(", ").map {|x| x.to_i}
+		puts "where would you like to play your turn? row,col"
+		response = gets.chomp.split(",")
+		response.map(&:to_i)
 	end
 
 	def display(board)

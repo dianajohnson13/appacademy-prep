@@ -15,10 +15,7 @@ class Game
 	def play_turn
 		move = current_player.get_move
 		board.place_mark(move, current_player.mark)
-		p move
-		p current_player
 		switch_players!
-		p current_player
 	end
 
 	def current_player
@@ -40,7 +37,7 @@ class Game
 			play_turn
 			game_over = true if board.over?
 		end
-		board.winner
+		p board.winner
 	end
 
 	

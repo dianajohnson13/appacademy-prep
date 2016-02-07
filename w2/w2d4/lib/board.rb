@@ -46,17 +46,17 @@ class Board
 		sub_arrs = grid.count
 		0.upto(sub_arrs - 1) do |col|
 			in_a_row = 0
+			
 			0.upto(sub_arrs - 1) do |row|
 				unless (grid[row][col]).nil?
 					in_a_row += 1 if grid[row][col] == grid[0][col]
 				end
 				return grid[0][col] if in_a_row == sub_arrs
 			end
+		
 		end
-
 		return grid[0][0] if diagonial_down_winner?
 		return grid[0][sub_arrs - 1] if diagonial_up_winner?
-		
 		return nil
 	end
 
