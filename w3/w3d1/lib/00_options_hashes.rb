@@ -22,19 +22,14 @@ def transmogrify(string, options = {})
 	defaults = {times: 5, upcase: "false", reverse: "false"}
 	options = defaults.merge(options)
 
-	if options[:upcase] == true && options[:reverse] == true
-	 	new_string = string.upcase.reverse
-	elsif options[:upcase] == true
-		new_string = string.upcase
-	elsif options[:reverse] == true
-		new_string = string.reverse
-	else
-		new_string = string
-	end 
+	new_str = string
 
-	array = []
-	options[:times].times {array << new_string}
-	array.join
+	new_str = new_str.upcase if options[:upcase] == true
+	new_str = new_str.reverse if options[:reverse] == true
+
+	extended_str = ""
+	options[:times].times {extended_str << new_str}
+	extended_str
 end
 
 transmogrify("Hello", {times: 4, upcase: true, reverse: true })
