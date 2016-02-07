@@ -1,0 +1,5 @@
+line1: oh hello
+line2: this is a test of the line_shuffler
+line3: the line_shuffler is supposed to shuffle lines
+line4: so i am writing a few lines
+line5: to try it out

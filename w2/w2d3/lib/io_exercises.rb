@@ -12,32 +12,35 @@
 #   `shuffle` method in array.
 
 def guessing_game
-	computers_num = rand(1..100)
+	secret_num = rand(1..100)
 	guess_count = 0
 
 	while true do
 		puts "guess a number"
-		guess = gets.chomp.to_i
+		guess = gets.to_i
 		puts guess
+		
 		guess_count += 1
-		puts guess_count
-		if guess > computers_num
-			puts "too high"
-		elsif guess < computers_num
-			puts "too low"
-		else 
-			return
+		puts "You have made #{guess_count} guesses."
+		
+		if guess > secret_num
+			puts "Your guess was too high."
+		elsif guess < secret_num
+			puts "Your guess was too low."
+		else
+			puts "You got it!"
+			break
 		end
+	
 	end
 end
 
 
-def line_shuffler
-	puts "What filename should we open and shuffle?"
-	filename = gets.chomp
+def line_shuffler(filename)
 	file = File.open(filename, "r")
 	lines = file.readlines().shuffle
 	new_file = File.open(filename + "-shuffled", "w")
+	
 	lines.each do |line|
 		new_file.puts line
 	end
@@ -45,4 +48,12 @@ def line_shuffler
 	new_file.close()
 end
 
-line_shuffler
+if __FILE__ == $PROGRAM_NAME
+	if ARGV.empty?
+    puts "What filename should we open and shuffle?"
+		filename = gets.chomp
+		line_shuffler(filename)
+  else
+    line_shuffler(ARGV[0])
+  end
+end
