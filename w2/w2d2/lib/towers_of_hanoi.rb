@@ -47,20 +47,18 @@ class TowersOfHanoi
 	end
 
 	def move(from_tower, to_tower)
-		if valid_move?(from_tower, to_tower)
 			towers[to_tower] << towers[from_tower].pop
-		else 
-			puts "That's not a valid move!"
-		end
 	end
 
 	def valid_move?(from_tower, to_tower)
 		return false if from_tower.nil? || to_tower.nil?
+		
 		unless towers[from_tower].empty?
 			if towers[to_tower].empty? || (towers[from_tower].last < towers[to_tower].last)
 				return true
 			end
-		end 
+		end
+
 		false
 	end
 
@@ -74,13 +72,19 @@ class TowersOfHanoi
 	def play
 		render
 		puts "What tower would you like to move a disk from: 0, 1, or 2?"
-		from_tower = gets.chomp.to_i
+		from_tower = gets.to_i
 		puts "What tower would you like to move a disk to: 0, 1, 2?"
-		to_tower = gets.chomp.to_i
-		move(from_tower, to_tower)
+		to_tower = gets.to_i
+		
+		if valid_move?(from_tower, to_tower)
+			move(from_tower, to_tower)
+		else
+			puts "That's not a valid move!"
+		end
+
 		if won?
 			render
-			return puts "You win!!"
+			puts "You win!!"
 		else
 			self.play
 		end
@@ -93,6 +97,7 @@ class TowersOfHanoi
 	end
 end
 
-game = TowersOfHanoi.new
-
-game.play
+if __FILE__ == $PROGRAM_NAME
+	game = TowersOfHanoi.new
+	game.play
+end
