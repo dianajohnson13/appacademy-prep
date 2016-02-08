@@ -1,5 +1,5 @@
 class Ship
-	attr_reader :board, :model
+	attr_reader :board
 
 		SHIPS_LENGTH = { 
 		"aircraft carrier" => 5, 
@@ -32,7 +32,7 @@ class Ship
 		col = first_spot[1]
 		required_spots = []
 
-		SHIPS_LENGTH[model].times do |x|
+		SHIPS_LENGTH[@model].times do |x|
 			required_spots << [row, col + x]
 		end
 

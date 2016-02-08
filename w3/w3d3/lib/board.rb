@@ -1,5 +1,5 @@
 class Board
-	attr_accessor :grid, :number_ships
+	attr_reader :grid, :number_ships
 
 	def initialize(grid = Board.default_grid)
 		@grid = grid
@@ -55,9 +55,7 @@ class Board
 	end
 
 	def full?
-		grid.each do |row| 
-			row.each { |spot| return false if spot.nil? }
-		end
+		grid.flatten.each { |spot| return false if spot.nil? }
 		true
 	end
 
@@ -87,16 +85,15 @@ class Board
 
 	def [](pos)
 		x, y = pos
-		@grid[x][y]
+		grid[x][y]
 	end
 
 	def []=(row, col, mark)
-		@grid[row][col] = mark
+		grid[row][col] = mark
 	end
 
 	def in_range?(pos)
-		return true if (pos[0] < 10) && (pos[1] < 10)
-		false
+		(pos[0] < 10) && (pos[1] < 10)
 	end
 
 end

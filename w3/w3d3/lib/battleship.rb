@@ -41,8 +41,7 @@ class BattleshipGame
   end
 
   def game_over?
-    return true if board.won?
-    false
+    board.won?
   end
 
 
