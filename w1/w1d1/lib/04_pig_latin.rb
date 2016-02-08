@@ -32,6 +32,5 @@ def swap_letters(letters)
 end
 
 def is_capped?(word)
-  return true if word.capitalize == word
-  false
+ word.capitalize == word
 end
