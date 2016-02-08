@@ -10,6 +10,8 @@ class ArticlesController < ApplicationController
 
 	def show
 		@article = Article.find(params[:id])
+		@article.increment_view_count
+		@article.save
 
 		@comment = Comment.new
 		@comment.article_id = @article.id
@@ -50,4 +52,13 @@ class ArticlesController < ApplicationController
 		redirect_to article_path(@article)
 	end
 
+
+	def months
+		@curr_month = params[:month]
+		articles = Article.all
+		@articles_in_month = []
+		articles.each do |article| 
+			@articles_in_month << article if article.month == @curr_month
+		end
+	end
 end

@@ -1,5 +1,5 @@
 <h1><%= @article.title %></h1>
-
+<h2>Viewed by <%=@article.view_count%> plebs </h2>
 <p><% if @article.image.exists? %>
 	<%= image_tag @article.image.url%>
 	<% end %>

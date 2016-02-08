@@ -30,7 +30,11 @@ a {
   margin-top: 20px;
 }
 
+#sidebar {
+  float:left;
+}
+
 #content {
-  clear: both;
-  padding-top: 20px;
+
+  float:left;
 }

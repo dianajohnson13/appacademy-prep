@@ -19,4 +19,11 @@ class Article < ActiveRecord::Base
 		self.tags = new_or_found_tags
 	end
 
+	def month
+		self.created_at.strftime("%B")
+	end
+
+	def increment_view_count
+		self.view_count = self.view_count.nil? ? 1: self.view_count + 1
+	end
 end

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Blogger</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
@@ -11,19 +12,28 @@
 	<p class="flash">
 		<%= flash.notice %>
 	</p>
+
 	<div id="container">
+	  <!-- http://stackoverflow.com/questions/8625829/design-pattern-for-side-bar-with-dynamic-content-in-rails -->
+		<div id="sidebar"><%= render :partial => 'layouts/sidebar' %></div>
 		<div id="content">
+		<div id="contentwrapper">
 			<%= yield %>
-			<hr>
-			<h6>
-				<% if logged_in? %>
-					<% "Logged in as #{current_user.email}" %>
-					<% link_to "(logout)", logout_path %>
-				<% else %>
-					<% link_to "(login)", login_path %>
-				<% end %>
-			</h6>
+				<hr>
+
+				<h6>
+					<% if logged_in? %>
+						<%= "Logged in as #{current_user.email}" %>
+						<%= link_to "(logout)", logout_path %>
+					<% else %>
+						<%= link_to "(login)", login_path %>
+					<% end %>
+				</h6>
+			</div>
 		</div>
+	
 		</div>
 	</body>
+
+
 </html>
