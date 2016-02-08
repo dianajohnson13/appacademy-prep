@@ -1,15 +1,8 @@
 class Hangman
-	attr_reader :guesser, :referee, :board, :players
+	attr_reader :guesser, :referee, :board
 
-	def initialize(players = {guesser: guesser, referee: referee})
-		@players = players
-	end
-
-	def guesser
+	def initialize(players)
 		@guesser = players[:guesser]
-	end
-
-	def referee
 		@referee = players[:referee]
 	end
 
@@ -47,7 +40,7 @@ class Hangman
 				display_board << space
 			end
 		end
-		p display_board
+		display_board
 	end
 
 	def play
@@ -57,32 +50,22 @@ class Hangman
 
 		10.times do |guess|
 			if board.include?(nil)
-				display_board
+				p display_board
 				take_turn
 			else
-				puts "#{guesser.name} wins!! The word was #{referee.secret_word}"
+				puts "#{guesser.name} wins!! The word was #{board.join}"
 				return
 			end
 			puts "#{guess + 1} guesses out of 10 have been made."
 		end
 
-		puts "#{guesser.name} looses! The word was #{referee.secret_word}"
+		puts "#{guesser.name} looses! The word was #{referee.get_word}"
 	end
-
-	# def valid_word?(secret_word)
-	# 	secret_word = referee.secret_word
-	# 	if guesser.is_a?(ComputerPlayer)
-	# 		if !(guesser.dictionary.include?(secret_word))
-	# 			raise "That is not a word in the dictionary!"
-	# 		end
-	# 	end
-	# 	true
-	# end
 
 end
 
 class HumanPlayer
-	attr_accessor :secret_word, :name, :used_letters
+	attr_reader :name
 
 	def initialize(name)
 		@name = name
@@ -94,9 +77,8 @@ class HumanPlayer
 	end
 
 	def pick_secret_word
-		puts "Please type a secret word."
-		@secret_word = gets.chomp
-		secret_word.length
+		puts "Please choose a secret word. What is the length of your word?"
+		gets.to_i
 	end
 
 	def guess(board)
@@ -105,44 +87,41 @@ class HumanPlayer
 	end
 
 	def check_guess(guess)
-		puts %Q(Does your secret_word include "#{guess}"? Yes or No)
+		puts %Q(Does your secret_word include "#{guess}"? yes or no)
 		response = gets.chomp.downcase
 
-		if response == "no" && secret_word.include?(guess)
-			puts "Lier!! Let's try that again..."
-			check_guess(guess)
-		elsif response == "no"
-			return []
-		elsif response == "yes" && !(secret_word.include?(guess))
-			puts "No it doesn't! Did you forget your secret word?"
-			find_indices(guess)
+		if response == "yes"
+			matches = find_indices(guess)
 		else
-			find_indices(guess)
+			matches = []
 		end
 
 	end
 
 	def find_indices(guess)
 		indices = []
-		characters = secret_word.chars
-
-		characters.each_with_index do |char, i|
-			indices << i if char == guess
-		end
-
-		indices
+		
+		puts "At what spots can the guessed letter, '#{guess}', be found? Consider the first letter to be at position '1'. Seperate with commas."
+		
+		spots = gets.chomp.split(",")
+		spots.map! { |spot| spot.to_i - 1} 
 	end
 
 	def handle_response(guess, matches)
 		puts "You guessed #{guess}. There are #{matches.length} in the secret word."
-		used_letters << guess
-		puts %Q(So far you have guessed the letters: #{used_letters.join", "})
+		@used_letters << guess
+		puts %Q(So far you have guessed the letters: #{@used_letters.join", "})
+	end
+
+	def get_word
+		puts "What was your secret word?"
+		gets.chomp
 	end
 
 end
 
 class ComputerPlayer
-	attr_reader :dictionary, :secret_word, :candidate_words, :used_letters, :name
+	attr_reader :dictionary, :secret_word, :name
 
 	def initialize(dictionary)
 		@dictionary = dictionary
@@ -167,12 +146,12 @@ class ComputerPlayer
 	end
 
 	def guess(board)
-		letters_in_words = candidate_words.join.chars
+		letters_in_words = @candidate_words.join.chars
 			
 		board.each do |letter|
 			letters_in_words.delete(letter) unless letter.nil?
 		end
-		used_letters.each do |letter|
+		@used_letters.each do |letter|
 			letters_in_words.delete(letter)
 		end
 		get_mode(letters_in_words)
@@ -213,13 +192,17 @@ class ComputerPlayer
 		@candidate_words
 	end
 
+	def get_word
+		@secret_word
+	end
+
 end
 
 if __FILE__ == $PROGRAM_NAME
 
 	puts "Hi. What's your name?"
 	name = gets.chomp
-	puts "Would you like to be the guesser or the referee?"
+	puts "Hi, #{name}! Would you like to be the guesser or the referee?"
 		
 		if gets.chomp.downcase == "guesser"
 			guesser = HumanPlayer.new(name)
@@ -229,7 +212,7 @@ if __FILE__ == $PROGRAM_NAME
 			referee = HumanPlayer.new(name)
 		end
 
-	game = Hangman.new(players = {guesser: guesser, referee: referee})
+	game = Hangman.new({guesser: guesser, referee: referee})
 
 	game.play
 
