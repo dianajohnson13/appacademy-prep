@@ -28,8 +28,7 @@ class Board
 	end
 
 	def empty?(pos)
-		return true if self[*pos].nil?
-		false
+		self[*pos].nil?
 	end
 
 	def over?
@@ -72,11 +71,13 @@ class Board
 		sub_arrs = grid.count
 		i = 0
 		j = sub_arrs - 1
+		
 		while i < sub_arrs
 			return false if grid[i][j] != grid[0][sub_arrs - 1]
 			i += 1
 			j -= 1
 		end
+		
 		true
 	end
 
@@ -88,6 +89,7 @@ class Board
 				open_spots << [col, row] if (grid[col][row]).nil?
 			end
 		end
+
 		open_spots
 	end
 

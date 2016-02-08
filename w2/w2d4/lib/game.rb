@@ -33,7 +33,7 @@ class Game
 	def play
 		game_over = false
 		until game_over == true
-			current_player.display(board)
+			@current_player.display(board)
 			play_turn
 			game_over = true if board.over?
 		end
@@ -52,8 +52,6 @@ if __FILE__ == $PROGRAM_NAME
 	player_two.mark = :O
 
 	test_game = Game.new(player_one, player_two)
-	
-
 
 	test_game.play
 
