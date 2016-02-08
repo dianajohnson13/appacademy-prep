@@ -2,8 +2,8 @@ class Student
 	attr_reader :first_name, :last_name, :courses
 
 	def initialize(first_name, last_name)
-		@first_name = first_name
-		@last_name = last_name
+		@first_name = first_name.capitalize
+		@last_name = last_name.capitalize
 		@courses = []
 	end
 
@@ -19,16 +19,18 @@ class Student
 	end
 
 	def course_load
-		credits_per_department = Hash.new(0)
+		credits_per_dept = Hash.new(0)
+
 		courses.each do |course|
-			credits_per_department[course.department] += course.credits
+			credits_per_dept[course.department] += course.credits
 		end
-		credits_per_department
+
+		credits_per_dept
 	end
 
-	def has_conflict?(course)
-		self.courses.each do |c|
-			return true if c.conflicts_with?(course)
+	def has_conflict?(new_course)
+		self.courses.each do |course|
+			return true if course.conflicts_with?(new_course)
 		end
 		false
 	end
